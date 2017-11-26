@@ -1,27 +1,22 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
-import Home from './client/components/Home'
-import UserList, { loadData } from './client/components/UserList'
+import UserList from './client/pages/UserList'
+import Home from './client/pages/Home'
+import App from './client/App'
 
-export const _routes = () => {
-    return (
-        <div>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/users" component={UserList} />
-        </div>
-    )
-}
-
-
+// This is how to nest routes in plain object literal format in Router V4
 export default [
-	{
-		path: '/',
-		component: Home,
-		exact: true
-	},
-	{
-		path: '/users',
-		component: UserList,
-		loadData,
-	}
+  {
+    ...App,
+    routes: [
+      {
+        ...Home,
+        path: '/',
+        exact: true,
+      },
+      {
+        ...UserList,
+        path: '/users',
+      },
+    ],
+  },
 ]
