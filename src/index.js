@@ -22,9 +22,13 @@ app.use(
 app.use(express.static('public'))
 app.get('*', (req, res) => {
   const initialStore = createStore(req)
-  const loadDataPromises = matchRoutes(Routes, req.path).map(({ route }) => route.loadData && route.loadData(initialStore))
+  console.log('Match Routes ', matchRoutes(Routes, req.path))
+  const loadDataPromises = matchRoutes(Routes, req.path).map(({ route }) => route.loadData && wrapPromiseAlwaysResolve(route.loadData(initialStore)))
   Promise.all(loadDataPromises).then(() => {
-    const content = renderRoutesToString(Routes, req, initialStore)
+    const context = {}
+    const content = renderRoutesToString(Routes, req, initialStore, context)
+    if (context.url) res.redirect(301, context.url)
+    if (context.notFound) res.status(404)
     res.send(content)
   })
 })
@@ -32,3 +36,8 @@ app.get('*', (req, res) => {
 app.listen(3000, () => {
   console.log('App is listening on port 3000.')
 })
+
+const wrapPromiseAlwaysResolve = innerPromise =>
+  new Promise((resolve, reject) => {
+    innerPromise.then(() => resolve()).catch(() => resolve())
+  })

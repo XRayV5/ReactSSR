@@ -6,16 +6,16 @@ import { renderToString } from 'react-dom/server'
 import { wrapWithHtmlTemplate } from './template'
 
 // import Routes from '../Routes'
-const connectRouterToStore = (Routes, path) => store => (
+const connectRouterToStore = (Routes, path, context) => store => (
   <Provider store={store}>
-    <StaticRouter context={{}} location={path}>
+    <StaticRouter context={context} location={path}>
       <div>{renderRoutes(Routes)}</div>
     </StaticRouter>
   </Provider>
 )
 
-export default function (Routes, { path }, store) {
-  const componentWithRouter = connectRouterToStore(Routes, path)(store)
+export default function (Routes, { path }, store, context) {
+  const componentWithRouter = connectRouterToStore(Routes, path, context)(store)
   const componentToString = renderToString(componentWithRouter)
   return wrapWithHtmlTemplate(componentToString, store)
 }

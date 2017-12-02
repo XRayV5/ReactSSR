@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
 
 const Home = () => (
-  <div>
-    <div>Hello</div>
-    <button onClick={() => console.log('Hi there')}>Click</button>
+  <div className="center-align" style={{ marginTop: '200px' }}>
+    <h3>Welcome</h3>
+    <p>Check out our site!</p>
   </div>
-);
+)
 export default {
   component: Home,
-};
+}
