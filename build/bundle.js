@@ -497,10 +497,14 @@ var _serializeJavascript = __webpack_require__(18);
 
 var _serializeJavascript2 = _interopRequireDefault(_serializeJavascript);
 
+var _reactHelmet = __webpack_require__(28);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var helmet = _reactHelmet.Helmet.renderStatic();
+
 var wrapWithHtmlTemplate = exports.wrapWithHtmlTemplate = function wrapWithHtmlTemplate(content, store) {
-	return '<html>\n\t<head>\n\t\t<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">\n\t</head>\n\t<body>\n\t\t<div id="root">' + content + '</div>\n\t\t<script>\n\t\t\twindow.INITIAL_STATE = ' + (0, _serializeJavascript2.default)(store.getState()) + '\n\t\t</script>\n\t\t<script src="bundle.js"></script>\n\t</body>\n</html>';
+	return '<html>\n\t<head>\n    ' + helmet.title.toString() + '\n    ' + helmet.meta.toString() + '\n\t\t<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">\n\t</head>\n\t<body>\n\t\t<div id="root">' + content + '</div>\n\t\t<script>\n\t\t\twindow.INITIAL_STATE = ' + (0, _serializeJavascript2.default)(store.getState()) + '\n\t\t</script>\n\t\t<script src="bundle.js"></script>\n\t</body>\n</html>';
 };
 
 /***/ }),
@@ -579,6 +583,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(5);
 
+var _reactHelmet = __webpack_require__(28);
+
 var _actions = __webpack_require__(1);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -620,6 +626,16 @@ var UserList = function (_Component) {
       return _react2.default.createElement(
         'div',
         null,
+        _react2.default.createElement(
+          _reactHelmet.Helmet,
+          null,
+          _react2.default.createElement(
+            'title',
+            null,
+            'User App'
+          ),
+          _react2.default.createElement('meta', { property: 'og:title', content: 'User App' })
+        ),
         _react2.default.createElement(
           'ul',
           null,
@@ -1031,6 +1047,12 @@ exports.default = function (InnerComponent) {
     return { auth: auth };
   })(RequireAuth);
 };
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports) {
+
+module.exports = require("react-helmet");
 
 /***/ })
 /******/ ]);
